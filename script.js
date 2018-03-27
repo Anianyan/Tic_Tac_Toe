@@ -6,7 +6,6 @@ var board = [
 
 var player, sqrId, user, computer, row, col;
 const ARR_LENGTH = 3;
-
 $(document).ready(function() {
   //1 checkbox event listener
   $(".checkBox").click(function() {
@@ -14,23 +13,23 @@ $(document).ready(function() {
       user = $(this).val();
       player = user;
       computer = (user == 'X') ? 'O' : 'X';
-
     }
   });
 
   $(".square").click(function() {
         sqrId = $(this).attr("id");
         playerMove();
-        computerAI();
+
 
         //Checks Win or Not
           if(checkWinner()) {
             alert(player + " Win the game");
           }
 
-          if(isDraw()) {
+          if(!isDraw()) {
             alert("It's a draw!");
           }
+          computerAI();
         });
 
     $(".reset").click(function() {
@@ -64,6 +63,7 @@ function computerAI() {
     random  = Math.floor(Math.random() * (max + min));
   } while ($("#" + random).text() != "");
   $("#" + random).text(computer);
+  sqrId = random;
   row = getRow();
   col = getCol();
   board[row][col] = computer;
@@ -71,15 +71,15 @@ function computerAI() {
 
 
 
-//Checjing for draw
+//Checking for draw
 function isDraw() {
     for (var  i = 0; i < ARR_LENGTH; i++) {
       for (var j = 0; j< board[i].length; j++) {
-        if(board[i][j] == "" ) return false;
+        if(board[i][j] == "" ) return true;
 
       }
     }
-    return true;
+    return false;
 }
 
 
@@ -121,7 +121,7 @@ function resetBoard() {
   player = "";
   computer = "";
   for(var i = 0; i < ARR_LENGTH; i++) {
-    for (var  j = 0; j< ARR_LENGTH; j++)
+    for (var  j = 0; j< board[i].length; j++)
     {
         board[i][j] = "";
     }
