@@ -26,10 +26,20 @@ $(document).ready(function() {
             alert(player + " Win the game");
           }
 
-          if(!isDraw()) {
+          else
+          {
+            if(!isDraw()) {
             alert("It's a draw!");
           }
-          computerAI();
+            else {
+              computerAI();
+              if(checkWinner()) {
+                alert(computer + " Win the game");
+              }
+             }
+          }
+
+
         });
 
     $(".reset").click(function() {
