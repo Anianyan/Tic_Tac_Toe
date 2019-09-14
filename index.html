@@ -4,10 +4,6 @@
           <meta charset = "UTF-8">
           <title> Tic Tac Toe</title>
           <link href="style.css" rel = "stylesheet">
-
-          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-          <script src="script.js" > </script>
-
 </head>
 <body>
   <div class = "container">
@@ -19,12 +15,18 @@
     <div class = "controls">
         <h3>You're playing against the computer. Choose X or O</h3>
         <form action="#">
-          <input class="checkBox" type="checkbox" name="X" value="X">X Player
-          <input class="checkBox" type="checkbox" name="O" value="O">O Player
+          <div class="inline-block">
+            <input type="radio" id="select-x" class="check-box" name="player" value="X">
+            <label for="select-x">X Player</label>
+          </div>
+          <div class="inline-block">
+            <input type="radio" id="select-y" class="check-box" name="player" value="O">
+            <label for="select-y">O Player</label>
+          </div>
         </form>
     </div>
 
-    <div class="bourdContainer">
+    <div class="board-container">
       <div class="row">
         <!-- first row -->
           <div id="0" class="square bottom right"></div>
@@ -47,8 +49,10 @@
       </div>
     </div>
 
-      <input type="button" class = "reset" name="Reset" value="Reset">
+      <input type="button" class = "reset-game" name="reset-game" value="Reset Game">
 
   </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="script.js" > </script>
 </body>
 </html>

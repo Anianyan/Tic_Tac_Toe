@@ -25,7 +25,7 @@ h1 {
   margin-left:40px;
 }
 
-.bourdContainer{
+.board-container{
   margin-top:40px;
 }
 
@@ -36,7 +36,6 @@ h1 {
 .row>div{
   display: inline-block;
   font-size: 90px;
-  /* border: solid 1px #00a300; */
   width: 100px;
   height: 100px;
   text-align: center;
@@ -52,15 +51,17 @@ h1 {
   border-bottom: solid 6px #03c04a;
 }
 
-.reset {
+.reset-game {
   background-color:  #f9f9fa;
-   border: none;
    color: black;
    padding: 5px 30px;
    text-align: center;
-   text-decoration: none;
    display: inline-block;
    font-size: 16px;
    margin: 10px 2px;
    cursor: pointer;
+}
+
+.inline-block {
+  display: inline-block;
 }

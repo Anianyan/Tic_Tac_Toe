@@ -1,3 +1,5 @@
+// Game logic
+
 var board = [
   ["","",""],
   ["","",""],
@@ -6,9 +8,73 @@ var board = [
 
 var player, sqrId, user, computer, row, col;
 const ARR_LENGTH = 3;
+
+let TicTacGame = {
+
+  // Class property
+
+  // Matrix for game
+  boarder: [],
+
+  // Matrix row length
+  row: ARR_LENGTH,
+
+  // Matrix column length 
+  col: ARR_LENGTH,
+
+
+
+  // Class methods
+  // init class depends on user select.
+  startGame() {
+    // Here must init boarder matrix to 9
+    // and if necessary anther variables
+  },
+
+  // check if matrix cell empty
+  isMatrixCellEmpty() {
+    // with argument x and y must check in matrix 
+    // empty cell or not
+  },
+
+  // Draw in Matrix
+  drawCell() {
+    // depends on argument must be current
+    // div add O or X 
+  },
+
+  // Reset Game (Matrix)
+  resetGame() {
+    // init 9 matrix
+    // remove html tag values
+  },
+
+  // Method for check if winner exists in game
+  checkGameWinner() {
+    // foreach matrix and check
+    // if have winner
+  },
+
+  // Game next step for border event 
+  playerNextStep() {
+    // js boarder event must call this function
+    // and after check do what necessary.
+  },
+
+  computerNextStep() {
+    // After user play must play computer
+  },
+
+  // Getting computer next logic i,j
+  getComputerPosition() {
+    // Here must be main logic
+    // For 
+  }
+}
 $(document).ready(function() {
-  //1 checkbox event listener
-  $(".checkBox").click(function() {
+  //1 check-box event listener
+  $(".check-box").click(function() {
+    console.log( $(this) );
     if($(this).is(":checked")) {
       user = $(this).val();
       player = user;
@@ -126,7 +192,7 @@ function checkWinner() {
 //Reset board
 function resetBoard() {
   $(".square").text("");
-  $(".checkBox").prop("checked", false);
+  $(".check-box").prop("checked", false);
   user = "";
   player = "";
   computer = "";
