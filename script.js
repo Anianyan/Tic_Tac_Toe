@@ -1,206 +1,129 @@
 // Game logic
-
-var board = [
-  ["","",""],
-  ["","",""],
-  ["","",""]
-];
+// Used pure javascript
+"use strict";
 
 var player, sqrId, user, computer, row, col;
 const ARR_LENGTH = 3;
 
-let TicTacGame = {
+const TicTacGame = {
 
-  // Class property
+  // Class properties
 
   // Matrix for game
-  boarder: [],
+  border: [],
 
   // Matrix row length
-  row: ARR_LENGTH,
+  borderRow: 0,
 
-  // Matrix column length 
-  col: ARR_LENGTH,
+  // Matrix column length
+  borderCol: 0,
 
+  // Computer sign(x|o).
+  computer: '',
 
+  // User selected sign(x|o).
+  player: '',
 
   // Class methods
+
   // init class depends on user select.
-  startGame() {
-    // Here must init boarder matrix to 9
-    // and if necessary anther variables
+  startGame (player) {
+    this.borderRow = 3;
+    this.borderCol = 3;
+    this.player = player;
+    this.computer = this.player === 'x' ? 'y' : 'x';
+    // Init empty border for start game.
+    for (let i = 0; i < this.borderRow; i++) {
+      this.border[i] = [];
+      for (let j = 0; j < this.borderCol; j++) {
+        this.border[i][j] = '';
+      }
+    }
+    return this;
   },
 
   // check if matrix cell empty
-  isMatrixCellEmpty() {
-    // with argument x and y must check in matrix 
+  isMatrixCellEmpty (row, col) {
+    // with argument x and y must check in matrix
     // empty cell or not
   },
 
   // Draw in Matrix
-  drawCell() {
+  drawCell () {
     // depends on argument must be current
-    // div add O or X 
+    // div add O or X
   },
 
   // Reset Game (Matrix)
-  resetGame() {
+  resetGame () {
     // init 9 matrix
     // remove html tag values
   },
 
   // Method for check if winner exists in game
-  checkGameWinner() {
+  checkGameWinner () {
     // foreach matrix and check
     // if have winner
   },
 
-  // Game next step for border event 
-  playerNextStep() {
+  // Game next step for border event
+  playerNextStep (event) {
     // js boarder event must call this function
     // and after check do what necessary.
+    const playerSelectedId = event.target.id;
+    // Get matrix position from tag id.
+    const parts = playerSelectedId.split('-');
+    const row = parseInt(parts[0]);
+    const col = parseInt(parts[1]);
+    // Here was problem with object this  
+    if (this.isMatrixCellEmpty(row, col)) {
+
+    }
   },
 
-  computerNextStep() {
+  computerNextStep () {
     // After user play must play computer
   },
 
   // Getting computer next logic i,j
-  getComputerPosition() {
+  getComputerPosition () {
     // Here must be main logic
-    // For 
+    // For
   }
-}
-$(document).ready(function() {
-  //1 check-box event listener
-  $(".check-box").click(function() {
-    console.log( $(this) );
-    if($(this).is(":checked")) {
-      user = $(this).val();
-      player = user;
-      computer = (user == 'X') ? 'O' : 'X';
-    }
-  });
 
-  $(".square").click(function() {
-        sqrId = $(this).attr("id");
-        playerMove();
-
-
-        //Checks Win or Not
-          if(checkWinner()) {
-            alert(player + " Win the game");
-          }
-
-          else
-          {
-            if(!isDraw()) {
-            alert("It's a draw!");
-          }
-            else {
-              computerAI();
-              if(checkWinner()) {
-                alert(computer + " Win the game");
-              }
-             }
-          }
-
-
-        });
-
-    $(".reset").click(function() {
-    resetBoard();
-    });
-
-
-});
-
-//player move
-function playerMove() {
-
-      if($("#" + sqrId).text() == "") {
-            $('#'+sqrId).text(player);
-            row = getRow();
-            col = getCol();
-            board[row][col] = player;
-
-            console.log(board);
-      }
-      else {
-        alert("Wrong move");
-      }
 }
 
-// computer play: random number between 0 -- 8
-function computerAI() {
-  var random;
-  var min = 0, max = 8;
-  do {
-    random  = Math.floor(Math.random() * (max + min));
-  } while ($("#" + random).text() != "");
-  $("#" + random).text(computer);
-  sqrId = random;
-  row = getRow();
-  col = getCol();
-  board[row][col] = computer;
-}
+// Add event listeners
 
+// for user selected X or Y.
+document.getElementsByClassName('select-player')[0].addEventListener('click', handleSelectedXorY)
 
+function handleSelectedXorY () {
+  const radioXInput = document.getElementById('select-x');
+  const radioYInput = document.getElementById('select-y');
+  let isChecked = false;
+  let player = '';
 
-//Checking for draw
-function isDraw() {
-    for (var  i = 0; i < ARR_LENGTH; i++) {
-      for (var j = 0; j< board[i].length; j++) {
-        if(board[i][j] == "" ) return true;
-
-      }
-    }
-    return false;
-}
-
-
-function getCol(){
-  return sqrId % ARR_LENGTH;
-}
-
-function getRow(){
-  return Math.floor(sqrId / ARR_LENGTH);
-}
-
-function checkWinner() {
-  //checked rows
-  for (var i = 0; i<ARR_LENGTH; i++){
-    if(board[i][0] != "" && board[i][0] == board[i][1] && board[i][1] == board[i][2])
-    return true;
+  if (radioXInput.checked) {
+    player = 'x';
+    isChecked = true;
   }
-  //checked Columns
-  for( var i = 0; i<ARR_LENGTH; i++)
-  {
-    if (board[0][i] != "" && board[0][i] == board[1][i] && board[1][i] == board[2][i])
-    return true;
+
+  if (radioYInput.checked) {
+    player = 'y';
+    isChecked = true;
   }
-  //checked diagonals
-  if(board[0][0] != "" && board[0][0] == board[1][1] && board[1][1] ==board[2][2]) return true;
 
-  if(board[0][2] != "" && board[0][2] == board[1][1] && board[1][1] ==board[2][0]) return true;
+  if (isChecked) {
+    radioXInput.disabled = true;
+    radioYInput.disabled = true;
+    // Start game.
+    const game = TicTacGame.startGame(player);
 
-  //Nobady Win
-  return false;
-
-}
-//
-//Reset board
-function resetBoard() {
-  $(".square").text("");
-  $(".check-box").prop("checked", false);
-  user = "";
-  player = "";
-  computer = "";
-  for(var i = 0; i < ARR_LENGTH; i++) {
-    for (var  j = 0; j< board[i].length; j++)
-    {
-        board[i][j] = "";
+    // Handle when user selected next play.
+    const squares = document.getElementsByClassName('square');
+    for (let i = 0; i < squares.length; i++) {
+      squares[i].addEventListener('click', game.playerNextStep.call(game, event));
     }
-
   }
 }

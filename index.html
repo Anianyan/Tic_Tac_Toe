@@ -14,45 +14,45 @@
 
     <div class = "controls">
         <h3>You're playing against the computer. Choose X or O</h3>
-        <form action="#">
+        <form action="#" class="select-player">
           <div class="inline-block">
-            <input type="radio" id="select-x" class="check-box" name="player" value="X">
+            <input type="radio" id="select-x" name="player" value="X">
             <label for="select-x">X Player</label>
           </div>
           <div class="inline-block">
-            <input type="radio" id="select-y" class="check-box" name="player" value="O">
+            <input type="radio" id="select-y" name="player" value="O">
             <label for="select-y">O Player</label>
           </div>
         </form>
     </div>
 
-    <div class="board-container">
+    <div id="board-container">
       <div class="row">
         <!-- first row -->
-          <div id="0" class="square bottom right"></div>
-          <div id="1" class="square bottom right"></div>
-          <div id="2" class="square bottom"></div>
+          <div id="0-0" class="square bottom right"></div>
+          <div id="0-1" class="square bottom right"></div>
+          <div id="0-2" class="square bottom"></div>
       </div>
 
       <div class="row">
         <!-- second row -->
-          <div id="3" class="square bottom right"></div>
-          <div id="4" class="square bottom right"></div>
-          <div id="5" class="square bottom "></div>
+          <div id="1-0" class="square bottom right"></div>
+          <div id="1-1" class="square bottom right"></div>
+          <div id="1-2" class="square bottom "></div>
       </div>
 
       <div class="row">
         <!-- third row -->
-          <div id="6" class="square right"></div>
-          <div id="7" class="square right"></div>
-          <div id="8" class="square"></div>
+          <div id="2-0" class="square right"></div>
+          <div id="2-1" class="square right"></div>
+          <div id="2-2" class="square"></div>
       </div>
     </div>
 
       <input type="button" class = "reset-game" name="reset-game" value="Reset Game">
 
   </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
   <script src="script.js" > </script>
 </body>
 </html>
