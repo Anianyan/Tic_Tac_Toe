@@ -24,6 +24,12 @@ const TicTacGame = {
   // User selected sign(x|o).
   player: '',
 
+  // Player current step row.
+  playerCurrentRow: 0,
+
+  // Player current step col.
+  playerCurrentCol: 0,
+
   // Class methods
 
   // init class depends on user select.
@@ -31,8 +37,8 @@ const TicTacGame = {
     this.borderRow = 3;
     this.borderCol = 3;
     this.player = player;
-    this.computer = this.player === 'x' ? 'y' : 'x';
-    // Init empty border for start game.
+    this.computer = this.player === 'x' ? 'o' : 'x';
+    // Init empty border.
     for (let i = 0; i < this.borderRow; i++) {
       this.border[i] = [];
       for (let j = 0; j < this.borderCol; j++) {
@@ -42,16 +48,35 @@ const TicTacGame = {
     return this;
   },
 
+  gameNextStep (playerPosition) {
+    this.playerNextStep(playerPosition);
+    if (this.checkGameWinner()) {
+      // Salute!!!
+      alert('You win the game');
+    }
+
+    this.computerNextStep();
+    if (this.checkGameWinner()) {
+      // Salute!!!
+      alert('Computer win the game');
+    }
+  },
+
   // check if matrix cell empty
   isMatrixCellEmpty (row, col) {
-    // with argument x and y must check in matrix
-    // empty cell or not
+    if(this.border[row][col] === '') {
+      return true;
+    }
+    return false;
   },
 
   // Draw in Matrix
-  drawCell () {
+  drawCell (row, col, sign) {
     // depends on argument must be current
     // div add O or X
+    this.border[row][col] = sign;
+    let positionId = row + '-' +col;
+    document.getElementById(positionId).innerText = sign;
   },
 
   // Reset Game (Matrix)
@@ -62,33 +87,53 @@ const TicTacGame = {
 
   // Method for check if winner exists in game
   checkGameWinner () {
-    // foreach matrix and check
-    // if have winner
+    // Loop through the rows and the columns.
+    for (let i = 0; i < this.borderRow; i++) {
+
+      // Row
+      if (this.border[i][0] !== '' && this.border[i][0] === this.border[i][1] && this.border[i][1] === this.border[i][2]) {
+        return true;
+      }
+
+      // Columns
+      if (this.border[0][i] !== '' && this.border[0][i] === this.border[1][i] && this.border[1][i] === this.border[2][i]) {
+        return true;
+      }
+    }
+
+    // Check diagonals
+    if (this.border[0][0] !== '' && this.border[1][1] === this.border[0][0] && this.border[0][0] === this.border[2][2]) {
+      return true;
+    }
+
+    if (this.border[0][2] !== '' && this.border[0][2] === this.border[1][1] && this.border[0][2] === this.border[2][0]) {
+      return true;
+    }
+
+    return false;
   },
 
   // Game next step for border event
-  playerNextStep (event) {
-    // js boarder event must call this function
-    // and after check do what necessary.
-    const playerSelectedId = event.target.id;
+  playerNextStep (playerSelectedId) {
     // Get matrix position from tag id.
     const parts = playerSelectedId.split('-');
-    const row = parseInt(parts[0]);
-    const col = parseInt(parts[1]);
-    // Here was problem with object this  
-    if (this.isMatrixCellEmpty(row, col)) {
+    this.playerCurrentRow = parseInt(parts[0]);
+    this.playerCurrentCol = parseInt(parts[1]);
 
+    if (this.isMatrixCellEmpty(this.playerCurrentRow, this.playerCurrentCol)) {
+      this.drawCell(this.playerCurrentRow, this.playerCurrentCol, this.player);
     }
   },
 
   computerNextStep () {
     // After user play must play computer
+    let positions = this.getComputerNextPosition();
   },
 
   // Getting computer next logic i,j
-  getComputerPosition () {
+  getComputerNextPosition () {
     // Here must be main logic
-    // For
+
   }
 
 }
@@ -110,7 +155,7 @@ function handleSelectedXorY () {
   }
 
   if (radioYInput.checked) {
-    player = 'y';
+    player = 'o';
     isChecked = true;
   }
 
@@ -123,7 +168,11 @@ function handleSelectedXorY () {
     // Handle when user selected next play.
     const squares = document.getElementsByClassName('square');
     for (let i = 0; i < squares.length; i++) {
-      squares[i].addEventListener('click', game.playerNextStep.call(game, event));
+      squares[i].addEventListener('click', function() {
+        const position = event.target.id;
+        // Handle player step and computer step
+        game.gameNextStep(position);
+      });
     }
   }
 }
