@@ -1,3 +1,3 @@
 # Tic_Tac_Toe
 
-Minimax Algorithm in Tic-Tac-Toe
+Using Minimax Algorithm for computer step.
