@@ -1,5 +1,5 @@
 // Tic Tac Toe Game
-// Used pure javascript
+// Using pure javascript
 "use strict";
 
 /**
@@ -61,22 +61,27 @@ const TicTacGame = {
    * @param {string} playerPosition user selected position.
    */
   gameNextStep (playerPosition) {
-    this.playerNextStep(playerPosition);
+    this.setPlayerStep(playerPosition);
     let winner = this.checkGameWinner();
+    let newGame = false;
+
     if (winner === this.player) {
       // Salute!!!
-      alert('You win the game');
+      newGame = true;
+      this.alertMessage('You win the game');
+    } else if (this.isTieGame()) {
+        /** Check game draw case. */
+        newGame = true;
+        this.alertMessage('The game is draw.');
     }
 
-    this.computerNextStep();
-    if (this.checkGameWinner() === this.computer) {
-      // Salute!!!
-      alert('The computer win the game');
-    }
-
-    /** Check game draw case */
-    if (this.isTieGame()) {
-      alert('The game is draw.');
+    if(! newGame) {
+      this.computerNextStep();
+      if (this.checkGameWinner() === this.computer) {
+        // Salute!!!
+        newGame = true;
+        this.alertMessage('The computer win the game');
+      }
     }
   },
 
@@ -87,7 +92,7 @@ const TicTacGame = {
    * @param {int} col 
    */
   isMatrixCellEmpty (row, col) {
-    return this.border[row][col] === '' ? true: false;
+    return this.border[row][col] === '' ? true : false;
   },
 
   /**
@@ -100,15 +105,38 @@ const TicTacGame = {
   drawCell (row, col, sign) {
     this.border[row][col] = sign;
     let positionId = row + '-' +col;
-    document.getElementById(positionId).innerText = sign;
+    let element = document.getElementById(positionId);
+    element.innerText = sign;
+
+    /** Disable more clicks. */
+    element.className += ' disable';
   },
 
   /**
    * Reset Game (Matrix).
+   * reset html tags
+   * boarder
    */
   resetGame () {
-    // init 9 matrix
-    // remove html tag values
+    // Empty the matrix.
+    for(let i=0; i < this.borderRow; i++) {
+      for(let j=0; j < this.borderCol; j++) {
+        this.border[i][j] = '';
+      }
+    }
+
+    // Empty html boarder.
+    document.querySelectorAll('.square').forEach(function(el) {
+      el.innerHTML = '';
+    });
+
+    // Remove disable cells.
+    document.querySelectorAll('.disable').forEach(function(el) {
+      el.classList.remove('disable');
+    });
+
+    // Hide reset button.
+    document.getElementById('reset-game-button').classList.add('hide');
   },
 
   /**
@@ -164,7 +192,7 @@ const TicTacGame = {
    *
    * @param {string} playerSelectedId Tag id
    */
-  playerNextStep (playerSelectedId) {
+  setPlayerStep (playerSelectedId) {
     /** Get matrix position from tag id. */
     const parts = playerSelectedId.split('-');
     this.playerCurrentRow = parseInt(parts[0]);
@@ -193,8 +221,10 @@ const TicTacGame = {
       }
     }
     if (emptyCellsCount === 0) {
-      return 'tie';
+      return true;
     }
+
+    return false;
   },
 
   /**
@@ -205,7 +235,6 @@ const TicTacGame = {
 
     /** Get AI best move. */
     let bestMove = this.getBestMove(this.computer, cloneBorder);
-    console.log(bestMove);
     this.drawCell(bestMove.row, bestMove.col, this.computer);
   },
 
@@ -298,11 +327,25 @@ const TicTacGame = {
       return bestScore;
     }
 
+  },
+
+  /**
+   * End game alert.
+   *
+   * @param {string} message
+   */
+  alertMessage(message) {
+    /** Set timeout */
+    setTimeout(function() {
+      TicTacGame.resetGame();
+      alert(message);
+    }, 150);
   }
 
 }
 
 /**
+ * Start Game
  * Add event listeners
  * for user selected X or Y.
  */
@@ -330,14 +373,21 @@ function handleSelectedXorY () {
     /** Start game. */
     const game = TicTacGame.startGame(player);
 
+    /** Add event listener for reset game. */
+    document.getElementById('reset-game').addEventListener('click', function() {
+      game.resetGame();
+    });
+
     /** Handle when user selected correct position. */
-    const squares = document.getElementsByClassName('square');
-    for (let i = 0; i < squares.length; i++) {
-      squares[i].addEventListener('click', function() {
+    document.querySelectorAll('.square').forEach(function(el) {
+      el.addEventListener('click', function() {
+        /** Show reset button. */
+        document.getElementById('reset-game-button').classList.remove('hide');
         const position = event.target.id;
+
         /** Handle player & computer steps */
         game.gameNextStep(position);
       });
-    }
+    });
   }
 }
